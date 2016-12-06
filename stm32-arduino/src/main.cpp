@@ -4,14 +4,39 @@
 
 
 #include "Arduino.h"
+#include "screen/Adafruit_ST7735_stm32arduino.h"
+
+
+
+
+// A5 - SPI clock
+// A6 - SPI in
+// A7 - SPI out
+// A8 - camera clock
+// A9 serial TX
+// A10 serial RX
+// A10 serial RX
+
+
+
+
+//Adafruit_ST7735_stm32Arduino screen(PA3, PA3);
+
+
+
 
 void setup() {
-
 
   // configure PA8 to output PLL/2 clock
   gpio_set_mode(GPIOA, 8, GPIO_AF_OUTPUT_PP);
   *(volatile uint8_t *)(0x40021007) = 0x7; // MCO_Config(PLL/2);
 
+
+  SPI.begin();
+  SPI.begin();
+  SPI.setClockDivider(1);
+  SPI.setBitOrder(MSBFIRST);
+  SPI.setDataMode(SPI_MODE0);
 
   pinMode(PC13, OUTPUT);
 }
@@ -36,5 +61,7 @@ void loop() {
 
   digitalWrite(PC13, HIGH);    // turn the LED off by making the voltage LOW
   delay(100);
+
+  SPI.write(17);
 }
 
