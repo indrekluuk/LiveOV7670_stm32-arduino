@@ -143,8 +143,6 @@ public:
 
 private:
 
-    SPISettings spiSettings;
-
     static const uint8_t Bcmd[];
     static const uint8_t Rcmd1[];
     static const uint8_t Rcmd2green[];

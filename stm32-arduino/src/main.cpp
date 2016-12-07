@@ -20,7 +20,7 @@
 
 
 
-//Adafruit_ST7735_stm32Arduino screen(PA3, PA3);
+Adafruit_ST7735_stm32Arduino tft(PA2, PA3, PA1);
 
 
 
@@ -32,11 +32,15 @@ void setup() {
   *(volatile uint8_t *)(0x40021007) = 0x7; // MCO_Config(PLL/2);
 
 
-  SPI.begin();
+  /*
   SPI.begin();
   SPI.setClockDivider(1);
   SPI.setBitOrder(MSBFIRST);
   SPI.setDataMode(SPI_MODE0);
+   */
+
+  tft.initR(INITR_BLACKTAB);
+  tft.fillScreen(ST7735_BLACK);
 
   pinMode(PC13, OUTPUT);
 }
@@ -48,20 +52,10 @@ void loop() {
   digitalWrite(PC13, LOW);   // turn the LED on (HIGH is the voltage level)
   delay(1000);                       // wait for a second
   digitalWrite(PC13, HIGH);    // turn the LED off by making the voltage LOW
-  delay(200);
+  delay(500);
 
-  digitalWrite(PC13, LOW);    // turn the LED off by making the voltage LOW
-  delay(100);
+  //SPI.write(17);
 
-  digitalWrite(PC13, HIGH);    // turn the LED off by making the voltage LOW
-  delay(100);
-
-  digitalWrite(PC13, LOW);    // turn the LED off by making the voltage LOW
-  delay(100);
-
-  digitalWrite(PC13, HIGH);    // turn the LED off by making the voltage LOW
-  delay(100);
-
-  SPI.write(17);
+  tft.fillScreen(ST7735_RED);
 }
 

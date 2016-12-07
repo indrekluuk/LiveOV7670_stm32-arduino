@@ -13,7 +13,7 @@
 // stored in PROGMEM.  The table may look bulky, but that's mostly the
 // formatting -- storage-wise this is hundreds of bytes more compact
 // than the equivalent code.  Companion function follows.
-const uint8_t Adafruit_ST7735_stm32Arduino::Bcmd[] = { // Initialization commands for 7735B screens
+const PROGMEM uint8_t Adafruit_ST7735_stm32Arduino::Bcmd[] = { // Initialization commands for 7735B screens
     18,                     // 18 commands in list:
     ST7735_SWRESET,   CMD_DELAY,  //  1: Software reset, no args, w/delay
     50,                     //     50 ms delay

@@ -31,7 +31,7 @@ Adafruit_ST7735_stm32Arduino::Adafruit_ST7735_stm32Arduino(
     int8_t cs,
     int8_t rs,
     int8_t rst
-) : spiSettings(8000000, MSBFIRST, SPI_MODE0) {
+) {
   _width = ST7735_TFTWIDTH;
   _height = ST7735_TFTHEIGHT_18;
   _cs   = cs;
@@ -47,22 +47,18 @@ inline void Adafruit_ST7735_stm32Arduino::spiwrite(uint8_t c) {
 
 
 void Adafruit_ST7735_stm32Arduino::writecommand(uint8_t c) {
-  SPI.beginTransaction(spiSettings);
   *rsport &= ~rspinmask;
   *csport &= ~cspinmask;
   spiwrite(c);
   *csport |= cspinmask;
-  SPI.endTransaction();
 }
 
 
 void Adafruit_ST7735_stm32Arduino::writedata(uint8_t c) {
-  SPI.beginTransaction(spiSettings);
   *rsport |=  rspinmask;
   *csport &= ~cspinmask;
   spiwrite(c);
   *csport |= cspinmask;
-  SPI.endTransaction();
 }
 
 
@@ -75,30 +71,18 @@ void Adafruit_ST7735_stm32Arduino::commandList(const uint8_t *addr) {
   uint8_t  numCommands, numArgs;
   uint16_t ms;
 
-  //numCommands = pgm_read_byte(addr++);   // Number of commands to follow
-  numCommands = *addr;
-  addr++;
+  numCommands = pgm_read_byte(addr++);   // Number of commands to follow
   while(numCommands--) {                 // For each command...
-    //writecommand(pgm_read_byte(addr++)); //   Read, issue command
-    writecommand(*addr); //   Read, issue command
-    addr++;
-
-    //numArgs  = pgm_read_byte(addr++);    //   Number of args to follow
-    numArgs  = *addr;
-    addr++;
-
+    writecommand(pgm_read_byte(addr++)); //   Read, issue command
+    numArgs  = pgm_read_byte(addr++);    //   Number of args to follow
     ms       = numArgs & CMD_DELAY;          //   If hibit set, delay follows args
     numArgs &= ~CMD_DELAY;                   //   Mask out delay bit
     while(numArgs--) {                   //   For each argument...
-      //writedata(pgm_read_byte(addr++));  //     Read, issue argument
-      writedata(*addr);
-      addr++;
+      writedata(pgm_read_byte(addr++));  //     Read, issue argument
     }
 
     if(ms) {
-      //ms = pgm_read_byte(addr++); // Read post-command delay time (ms)
-      ms = *addr;
-      addr++;
+      ms = pgm_read_byte(addr++); // Read post-command delay time (ms)
       if(ms == 255) ms = 500;     // If 255, delay for 500 ms
       delay(ms);
     }
@@ -118,8 +102,9 @@ void Adafruit_ST7735_stm32Arduino::commonInit(const uint8_t *cmdList) {
   rspinmask = digitalPinToBitMask(_rs);
 
   SPI.begin();
-  //SPI.setClockDivider(21); //4MHz
-  //SPI.setDataMode(SPI_MODE0);
+  SPI.setClockDivider(21); //4MHz
+  SPI.setDataMode(SPI_MODE0);
+  SPI.setBitOrder(MSBFIRST);
 
   // toggle RST low to reset; CS low so it'll listen to us
   *csport &= ~cspinmask;
@@ -193,9 +178,6 @@ void Adafruit_ST7735_stm32Arduino::setAddrWindow(uint8_t x0, uint8_t y0, uint8_t
 
 void Adafruit_ST7735_stm32Arduino::startAddrWindow(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1) {
   setAddrWindow(x0, y0, x1, y1);
-#if defined (SPI_HAS_TRANSACTION)
-    SPI.beginTransaction(mySPISettings);
-#endif
   *rsport |=  rspinmask;
   *csport &= ~cspinmask;
 }
@@ -203,16 +185,10 @@ void Adafruit_ST7735_stm32Arduino::startAddrWindow(uint8_t x0, uint8_t y0, uint8
 
 void Adafruit_ST7735_stm32Arduino::endAddrWindow() {
   *csport |= cspinmask;
-#if defined (SPI_HAS_TRANSACTION)
-    SPI.endTransaction();
-#endif
 }
 
 
 void Adafruit_ST7735_stm32Arduino::pushColor(uint16_t color) {
-#if defined (SPI_HAS_TRANSACTION)
-    SPI.beginTransaction(mySPISettings);
-#endif
   *rsport |=  rspinmask;
   *csport &= ~cspinmask;
   
@@ -220,9 +196,6 @@ void Adafruit_ST7735_stm32Arduino::pushColor(uint16_t color) {
   spiwrite(color);
 
   *csport |= cspinmask;
-#if defined (SPI_HAS_TRANSACTION)
-    SPI.endTransaction();
-#endif
 }
 
 void Adafruit_ST7735_stm32Arduino::drawPixel(int16_t x, int16_t y, uint16_t color) {
@@ -231,9 +204,6 @@ void Adafruit_ST7735_stm32Arduino::drawPixel(int16_t x, int16_t y, uint16_t colo
 
   setAddrWindow(x,y,x+1,y+1);
 
-#if defined (SPI_HAS_TRANSACTION)
-    SPI.beginTransaction(mySPISettings);
-#endif
   *rsport |=  rspinmask;
   *csport &= ~cspinmask;
   
@@ -241,9 +211,6 @@ void Adafruit_ST7735_stm32Arduino::drawPixel(int16_t x, int16_t y, uint16_t colo
   spiwrite(color);
 
   *csport |= cspinmask;
-#if defined (SPI_HAS_TRANSACTION)
-    SPI.endTransaction();
-#endif
 }
 
 
@@ -257,9 +224,6 @@ void Adafruit_ST7735_stm32Arduino::drawFastVLine(int16_t x, int16_t y, int16_t h
 
   uint8_t hi = color >> 8, lo = color;
     
-#if defined (SPI_HAS_TRANSACTION)
-    SPI.beginTransaction(mySPISettings);
-#endif
   *rsport |=  rspinmask;
   *csport &= ~cspinmask;
   while (h--) {
@@ -267,9 +231,6 @@ void Adafruit_ST7735_stm32Arduino::drawFastVLine(int16_t x, int16_t y, int16_t h
     spiwrite(lo);
   }
   *csport |= cspinmask;
-#if defined (SPI_HAS_TRANSACTION)
-    SPI.endTransaction();
-#endif
 }
 
 
@@ -283,9 +244,6 @@ void Adafruit_ST7735_stm32Arduino::drawFastHLine(int16_t x, int16_t y, int16_t w
 
   uint8_t hi = color >> 8, lo = color;
 
-#if defined (SPI_HAS_TRANSACTION)
-    SPI.beginTransaction(mySPISettings);
-#endif
   *rsport |=  rspinmask;
   *csport &= ~cspinmask;
   while (w--) {
@@ -293,9 +251,6 @@ void Adafruit_ST7735_stm32Arduino::drawFastHLine(int16_t x, int16_t y, int16_t w
     spiwrite(lo);
   }
   *csport |= cspinmask;
-#if defined (SPI_HAS_TRANSACTION)
-    SPI.endTransaction();
-#endif
 }
 
 
@@ -319,9 +274,6 @@ void Adafruit_ST7735_stm32Arduino::fillRect(int16_t x, int16_t y, int16_t w, int
 
   uint8_t hi = color >> 8, lo = color;
     
-#if defined (SPI_HAS_TRANSACTION)
-    SPI.beginTransaction(mySPISettings);
-#endif
   *rsport |=  rspinmask;
   *csport &= ~cspinmask;
   for(y=h; y>0; y--) {
@@ -332,9 +284,6 @@ void Adafruit_ST7735_stm32Arduino::fillRect(int16_t x, int16_t y, int16_t w, int
   }
 
   *csport |= cspinmask;
-#if defined (SPI_HAS_TRANSACTION)
-    SPI.endTransaction();
-#endif
 }
 
 
