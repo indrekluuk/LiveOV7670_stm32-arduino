@@ -47,7 +47,7 @@ void setup() {
 
 
 
-
+bool color = true;
 void loop() {
   digitalWrite(PC13, LOW);   // turn the LED on (HIGH is the voltage level)
   delay(1000);                       // wait for a second
@@ -56,6 +56,8 @@ void loop() {
 
   //SPI.write(17);
 
-  tft.fillScreen(ST7735_RED);
+  tft.fillScreen(color ? ST7735_RED : ST7735_CYAN);
+  color = !color;
+
 }
 

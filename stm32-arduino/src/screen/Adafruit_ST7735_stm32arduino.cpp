@@ -83,7 +83,7 @@ void Adafruit_ST7735_stm32Arduino::commandList(const uint8_t *addr) {
 
     if(ms) {
       ms = pgm_read_byte(addr++); // Read post-command delay time (ms)
-      if(ms == 255) ms = 500;     // If 255, delay for 500 ms
+      if(ms == 255) ms = 100;     // If 255, delay for 500 ms
       delay(ms);
     }
   }
@@ -102,7 +102,7 @@ void Adafruit_ST7735_stm32Arduino::commonInit(const uint8_t *cmdList) {
   rspinmask = digitalPinToBitMask(_rs);
 
   SPI.begin();
-  SPI.setClockDivider(21); //4MHz
+  SPI.setClockDivider(SPI_BAUD_PCLK_DIV_2);
   SPI.setDataMode(SPI_MODE0);
   SPI.setBitOrder(MSBFIRST);
 
