@@ -7,6 +7,7 @@
 #include "screen/Adafruit_ST7735_stm32arduino.h"
 
 
+#include "Wire.h"
 
 
 // A5 - SPI clock
@@ -16,6 +17,11 @@
 // A9 serial TX
 // A10 serial RX
 // A10 serial RX
+// PB4 - pixel clock
+// PB5 - vsync
+// PB6 - i2c Clock
+// PB7 - i2c data
+// PB8..PB15 pixel byte
 
 
 
@@ -23,13 +29,15 @@
 Adafruit_ST7735_stm32Arduino tft(PA2, PA3, PA1);
 
 
-
+//Wire wire;
 
 void setup() {
 
   // configure PA8 to output PLL/2 clock
   gpio_set_mode(GPIOA, 8, GPIO_AF_OUTPUT_PP);
   *(volatile uint8_t *)(0x40021007) = 0x7; // MCO_Config(PLL/2);
+
+//  gpiob.regs->IDR; bits
 
 
   /*
