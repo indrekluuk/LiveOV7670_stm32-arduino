@@ -4,7 +4,7 @@
 
 
 #include "Arduino.h"
-#include "camera/base/CameraOV7670.h"
+#include "camera/buffered/BufferedCameraOV7670.h"
 #include "screen/Adafruit_ST7735_stm32arduino.h"
 
 
@@ -24,7 +24,10 @@
 
 
 
-CameraOV7670 camera(CameraOV7670::RESOLUTION_QQVGA_160x120, CameraOV7670::PIXEL_RGB565, 14);
+BufferedCameraOV7670<uint16_t, 320, uint8_t, 160, uint8_t, 120> camera(
+    CameraOV7670::RESOLUTION_QQVGA_160x120,
+    CameraOV7670::PIXEL_RGB565,
+    5);
 Adafruit_ST7735_stm32Arduino tft(PA2, PA3, PA1);
 
 
@@ -57,10 +60,7 @@ void loop() {
 
 
 
-
-
-
-
+inline void sendLineToDisplay() __attribute__((always_inline));
 
 inline void screenLineStart(void) __attribute__((always_inline));
 inline void screenLineEnd(void) __attribute__((always_inline));
@@ -86,40 +86,23 @@ void processFrame() {
 
   camera.waitForVsync();
 
-  uint8_t lowByte = 0;
-  uint8_t bufferedLowByte = 0;
-
-  for (uint16_t y = 0; y < lineCount; y++) {
-
-    screenLineStart();
-
-    // For full VGA resolution byte order from camera is low1, high1, low2, high2
-    // We have to swap byte order for the screen.
-
-    camera.waitForPixelClockRisingEdge();
-    camera.readPixelByte();
-
-    for (uint16_t x = 0; x < lineLength-1; x++) {
-
-      camera.waitForPixelClockRisingEdge();
-      sendPixelByte(camera.readPixelByte()); // send pixel high byte
-
-      camera.waitForPixelClockRisingEdge();
-      sendPixelByte(camera.readPixelByte()); // send pixel low byte
-    }
-
-    // send last pixel
-    camera.waitForPixelClockRisingEdge();
-    sendPixelByte(camera.readPixelByte()); // send pixel high byte
-    pixelSendingDelay(); // prevent sending collision
-    sendPixelByte(bufferedLowByte); // send pixel low byte
-    pixelSendingDelay();
-
-
-    screenLineEnd();
+  for (uint8_t i = 0; i < camera.getLineCount(); i++) {
+    camera.readLine();
+    sendLineToDisplay();
   }
 }
 
+
+
+void sendLineToDisplay() {
+  if (screenLineIndex > 0) {
+    screenLineStart();
+    for (uint16_t i=0; i<camera.getPixelBufferLength(); i++) {
+      sendPixelByte(camera.getPixelByte(i));
+    }
+    screenLineEnd();
+  }
+}
 
 
 
