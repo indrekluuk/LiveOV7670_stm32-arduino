@@ -71,6 +71,12 @@
 #endif
 
 
+//todo remove this
+#define C_PORT_OUT ((*GPIOC_BASE).ODR)
+#define C14_PIN_MASK 0x4000
+#define C14_ON C_PORT_OUT |= C14_PIN_MASK
+#define C14_OFF C_PORT_OUT &= ~C14_PIN_MASK
+
 
 
 

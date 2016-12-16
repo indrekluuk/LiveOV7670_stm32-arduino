@@ -5,6 +5,8 @@
 
 #include "Arduino.h"
 #include "camera/buffered/BufferedCameraOV7670.h"
+#include "camera/buffered/stm32_72mhz/BufferedCameraOV7670_QQVGA_30hz.h"
+#include "camera/buffered/stm32_72mhz/BufferedCameraOV7670_QQVGA.h"
 #include "screen/Adafruit_ST7735_stm32arduino.h"
 
 
@@ -23,11 +25,16 @@
 // PB8..PB15 pixel byte
 
 
+BufferedCameraOV7670_QQVGA camera(CameraOV7670::PIXEL_RGB565, BufferedCameraOV7670_QQVGA::FPS_12_Hz);
 
-BufferedCameraOV7670<uint16_t, 320, uint8_t, 160, uint8_t, 120> camera(
-    CameraOV7670::RESOLUTION_QQVGA_160x120,
-    CameraOV7670::PIXEL_RGB565,
-    5);
+//BufferedCameraOV7670_QQVGA_30hz camera(CameraOV7670::PIXEL_RGB565);
+
+//BufferedCameraOV7670<uint16_t, 320, uint8_t, 160, uint8_t, 120> camera(
+//    CameraOV7670::RESOLUTION_QQVGA_160x120,
+//    CameraOV7670::PIXEL_RGB565,
+//    4);
+
+
 Adafruit_ST7735_stm32Arduino tft(PA2, PA3, PA1);
 
 
@@ -42,6 +49,7 @@ void setup() {
   tft.fillScreen(ST7735_BLACK);
 
   pinMode(PC13, OUTPUT);
+  pinMode(PC14, OUTPUT);
 
   noInterrupts();
 }
@@ -118,11 +126,13 @@ void screenLineEnd() {
 
 
 void sendPixelByte(uint8_t byte) {
-  SPI.transfer(byte);
+  spi_tx_reg(SPI1, byte);
+
+
+  //SPI.transfer(byte);
 
   // this must be adjusted if sending loop has more/less instructions
 
-  /*
   asm volatile("nop");
   asm volatile("nop");
   asm volatile("nop");
@@ -130,7 +140,8 @@ void sendPixelByte(uint8_t byte) {
   asm volatile("nop");
   asm volatile("nop");
   asm volatile("nop");
-  */
+  asm volatile("nop");
+  asm volatile("nop");
 }
 
 
