@@ -13,7 +13,8 @@ class BufferedCameraOV7670_QQVGA : public BufferedCameraOV7670<uint16_t, 320, ui
 
 public:
   enum FramesPerSecond {
-      FPS_18_Hz,
+      FPS_XX_Hz,
+      FPS_15_Hz,
       FPS_12_Hz,
       FPS_9_Hz,
       FPS_7p2_Hz
@@ -36,8 +37,10 @@ private:
   static uint8_t getPreScalerForFps(FramesPerSecond fps) {
     switch (fps) {
       default:
-      case FPS_18_Hz:
+      case FPS_XX_Hz:
         return 1;
+      case FPS_15_Hz:
+        return 2;
       case FPS_12_Hz:
         return 3;
       case FPS_9_Hz:
@@ -54,21 +57,30 @@ private:
 void BufferedCameraOV7670_QQVGA::readLine() {
 
   // reading loop is too tight fro 5Hz to wait for raising clock edge
-  if (framesPerSecond == FPS_18_Hz) {
+  if (framesPerSecond == FPS_XX_Hz) {
+    waitForPixelClockHigh();
+
     pixelBuffer.writeBufferPadding = 0;
     uint16_t bufferIndex = 0;
 
     waitForPixelClockLow();
+
+    C14_ON;
+    C14_OFF;
+
     while (bufferIndex < getPixelBufferLength()) {
+      pixelBuffer.writeBuffer[bufferIndex++] = readPixelByte();
       asm volatile("nop");
       asm volatile("nop");
       asm volatile("nop");
 
+      asm volatile("nop");
       asm volatile("nop");
       asm volatile("nop");
       asm volatile("nop");
 
       pixelBuffer.writeBuffer[bufferIndex++] = readPixelByte();
+
       asm volatile("nop");
       asm volatile("nop");
       asm volatile("nop");
@@ -78,11 +90,30 @@ void BufferedCameraOV7670_QQVGA::readLine() {
       asm volatile("nop");
       asm volatile("nop");
       asm volatile("nop");
-      pixelBuffer.writeBuffer[bufferIndex++] = readPixelByte();
+      asm volatile("nop");
+
     }
 
     C14_ON;
     C14_OFF;
+  } else if (framesPerSecond == FPS_15_Hz) {
+
+
+    waitForPixelClockHigh();
+
+    pixelBuffer.writeBufferPadding = 0;
+    uint16_t bufferIndex = 0;
+    while (bufferIndex < getPixelBufferLength()) {
+      waitForPixelClockLow();
+      asm volatile("nop");
+      pixelBuffer.writeBuffer[bufferIndex++] = readPixelByte();
+
+      waitForPixelClockLow();
+      asm volatile("nop");
+      pixelBuffer.writeBuffer[bufferIndex++] = readPixelByte();
+    }
+
+
   } else if (framesPerSecond == FPS_12_Hz) {
 
     waitForPixelClockHigh();

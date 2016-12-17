@@ -25,7 +25,7 @@
 // PB8..PB15 pixel byte
 
 
-BufferedCameraOV7670_QQVGA camera(CameraOV7670::PIXEL_RGB565, BufferedCameraOV7670_QQVGA::FPS_12_Hz);
+BufferedCameraOV7670_QQVGA camera(CameraOV7670::PIXEL_RGB565, BufferedCameraOV7670_QQVGA::FPS_15_Hz);
 
 //BufferedCameraOV7670_QQVGA_30hz camera(CameraOV7670::PIXEL_RGB565);
 
