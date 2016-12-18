@@ -58,12 +58,14 @@ void BufferedCameraOV7670_QQVGA::readLine() {
 
   // reading loop is too tight fro 5Hz to wait for raising clock edge
   if (framesPerSecond == FPS_XX_Hz) {
-    waitForPixelClockHigh();
+//    while(OV7670_HREF);
 
     pixelBuffer.writeBufferPadding = 0;
     uint16_t bufferIndex = 0;
 
-    waitForPixelClockLow();
+
+
+    while(!OV7670_HREF);
 
     C14_ON;
     C14_OFF;
@@ -73,6 +75,8 @@ void BufferedCameraOV7670_QQVGA::readLine() {
       asm volatile("nop");
       asm volatile("nop");
       asm volatile("nop");
+      asm volatile("nop");
+      asm volatile("nop");
 
       asm volatile("nop");
       asm volatile("nop");
@@ -84,14 +88,11 @@ void BufferedCameraOV7670_QQVGA::readLine() {
       asm volatile("nop");
       asm volatile("nop");
       asm volatile("nop");
-      asm volatile("nop");
-      asm volatile("nop");
+//      asm volatile("nop");
 
       asm volatile("nop");
       asm volatile("nop");
       asm volatile("nop");
-      asm volatile("nop");
-
     }
 
     C14_ON;

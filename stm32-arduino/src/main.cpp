@@ -18,6 +18,7 @@
 // A9 serial TX
 // A10 serial RX
 // A10 serial RX
+// PB3 - href
 // PB4 - pixel clock
 // PB5 - vsync
 // PB6 - i2c Clock
