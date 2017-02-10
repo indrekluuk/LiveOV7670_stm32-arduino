@@ -48,10 +48,14 @@ Adafruit_ST7735_stm32Arduino tft(PA2, PA3, PA1);
 
 
 void setup() {
-
-  camera.init();
+  bool cameraInitialized = camera.init();
   tft.initR(INITR_BLACKTAB);
-  tft.fillScreen(ST7735_BLACK);
+  if (cameraInitialized) {
+    tft.fillScreen(ST7735_BLACK);
+  } else {
+    tft.fillScreen(ST7735_RED);
+    delay(3000);
+  }  
 
   pinMode(PC13, OUTPUT);
   pinMode(PC14, OUTPUT);
