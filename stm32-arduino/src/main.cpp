@@ -11,6 +11,10 @@
 
 
 
+
+// A1 - TFT reset
+// A2 - TFT chip select
+// A3 - TFT D/C (data/command)
 // A5 - SPI clock
 // A6 - SPI in
 // A7 - SPI out
