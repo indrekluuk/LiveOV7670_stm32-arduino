@@ -4,10 +4,10 @@
 
 
 #include "Arduino.h"
-#include "camera/buffered/BufferedCameraOV7670.h"
-#include "camera/buffered/stm32_72mhz/BufferedCameraOV7670_QQVGA_30hz.h"
-#include "camera/buffered/stm32_72mhz/BufferedCameraOV7670_QQVGA.h"
-#include "screen/Adafruit_ST7735_stm32arduino.h"
+#include "src/camera/buffered/BufferedCameraOV7670.h"
+#include "src/camera/buffered/stm32_72mhz/BufferedCameraOV7670_QQVGA_30hz.h"
+#include "src/camera/buffered/stm32_72mhz/BufferedCameraOV7670_QQVGA.h"
+#include "src/screen/Adafruit_ST7735_stm32arduino.h"
 
 
 
@@ -47,7 +47,7 @@ Adafruit_ST7735_stm32Arduino tft(PA2, PA3, PA1);
 
 
 
-void setup() {
+void init() {
   bool cameraInitialized = camera.init();
   tft.initR(INITR_BLACKTAB);
   if (cameraInitialized) {
@@ -69,7 +69,7 @@ void processFrame();
 
 
 
-void loop() {
+void run() {
   processFrame();
 }
 
