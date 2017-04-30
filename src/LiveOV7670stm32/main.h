@@ -5,8 +5,8 @@
 #ifndef LIVEOV7670_MAIN_H
 #define LIVEOV7670_MAIN_H
 
-void init();
-void run();
+void initLiveOV7670();
+void processFrame();
 
 
 #endif //LIVEOV7670_MAIN_H

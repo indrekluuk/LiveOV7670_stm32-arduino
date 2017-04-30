@@ -3,6 +3,7 @@
 //
 
 
+#include "main.h"
 #include "Arduino.h"
 #include "src/camera/buffered/BufferedCameraOV7670.h"
 #include "src/camera/buffered/stm32_72mhz/BufferedCameraOV7670_QQVGA_30hz.h"
@@ -47,7 +48,7 @@ Adafruit_ST7735_stm32Arduino tft(PA2, PA3, PA1);
 
 
 
-void init() {
+void initLiveOV7670() {
   bool cameraInitialized = camera.init();
   tft.initR(INITR_BLACKTAB);
   if (cameraInitialized) {
@@ -64,14 +65,6 @@ void init() {
 }
 
 
-
-void processFrame();
-
-
-
-void run() {
-  processFrame();
-}
 
 
 

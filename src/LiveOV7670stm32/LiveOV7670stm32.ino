@@ -4,10 +4,10 @@
 
 
 void setup() {
-    init();
+    initLiveOV7670();
 }
 
 void loop() {
-    run();
+    processFrame();
 }
 
