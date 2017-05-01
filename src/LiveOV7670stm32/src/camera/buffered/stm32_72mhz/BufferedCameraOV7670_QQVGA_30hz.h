@@ -35,8 +35,8 @@ void BufferedCameraOV7670_QQVGA_30hz::readLine() {
   // only way to get line data at 10Hz is to unroll pixel reading
   readPixels_unrolled_x160(0);
 
-  C14_ON;
-  C14_OFF;
+  //C14_ON;
+  //C14_OFF;
 }
 
 

@@ -58,8 +58,8 @@ void initLiveOV7670() {
     delay(3000);
   }  
 
-  pinMode(PC13, OUTPUT);
-  pinMode(PC14, OUTPUT);
+  //pinMode(PC13, OUTPUT);
+  //pinMode(PC14, OUTPUT);
 
   noInterrupts();
 }

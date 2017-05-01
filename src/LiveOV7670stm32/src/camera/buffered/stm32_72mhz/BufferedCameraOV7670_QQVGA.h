@@ -67,8 +67,8 @@ void BufferedCameraOV7670_QQVGA::readLine() {
 
     while(!OV7670_HREF);
 
-    C14_ON;
-    C14_OFF;
+    //C14_ON;
+    //C14_OFF;
 
     while (bufferIndex < getPixelBufferLength()) {
       pixelBuffer.writeBuffer[bufferIndex++] = readPixelByte();
@@ -95,8 +95,8 @@ void BufferedCameraOV7670_QQVGA::readLine() {
       asm volatile("nop");
     }
 
-    C14_ON;
-    C14_OFF;
+    //C14_ON;
+    //C14_OFF;
   } else if (framesPerSecond == FPS_15_Hz) {
 
 
