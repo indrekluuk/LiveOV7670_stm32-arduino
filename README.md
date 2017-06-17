@@ -7,16 +7,18 @@ http://dan.drown.org/stm32duino/package_STM32duino_index.json
 <br>
 <br>
 
-OV7670 PIN connections:  
+TFT connection:  
+A1 - TFT reset  
+A2 - TFT chip select  
+A3 - TFT D/C (data/command)  
+A5 - SPI clock  
+A7 - MOSI  
   
-VSYNC - PIN2  
-XCLCK - PIN3 (must be level shifted from 5V -> 3.3V)  
-PCLCK - PIN12  
-SIOD - A4 (I2C data) - 10K resistor to 3.3V  
-SIOC - A5 (I2C clock) - 10K resistor to 3.3V  
-D0..D3 - A0..A3 (pixel data bits 0..3)  
-D4..D7 - PIN4..PIN7 (pixel data bits 4..7)  
-3.3V - 3.3V  
-RESET - 3.3V 
-GND - GND  
-PWDN - GND  
+Camera connections:  
+A8 - XCLCK (camera clock)  
+PB3 - HREF (Connecting this is not mandatory.Code is not using it)  
+PB4 - PCLCK (pixel clock)  
+PB5 - VSYNC (vertical sync)  
+PB6 - i2c Clock (10K resistor to 3.3V)  
+PB7 - i2c data (10K resistor to 3.3V)  
+PB8..PB15 - D0..D7 (pixel byte)  
