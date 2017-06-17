@@ -16,7 +16,7 @@ A7 - MOSI
   
 Camera connections:  
 A8 - XCLCK (camera clock)  
-PB3 - HREF (Connecting this is not mandatory.Code is not using it)  
+PB3 - HREF (Connecting this is not mandatory. Code is not using it)  
 PB4 - PCLCK (pixel clock)  
 PB5 - VSYNC (vertical sync)  
 PB6 - i2c Clock (10K resistor to 3.3V)  
