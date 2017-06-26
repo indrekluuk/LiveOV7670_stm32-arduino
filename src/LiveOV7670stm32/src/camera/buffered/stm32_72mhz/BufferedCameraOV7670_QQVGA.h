@@ -56,7 +56,7 @@ private:
 
 void BufferedCameraOV7670_QQVGA::readLine() {
 
-  // reading loop is too tight fro 5Hz to wait for raising clock edge
+  // reading loop is too tight for 12Hz and above to wait for raising clock edge
   if (framesPerSecond == FPS_XX_Hz) {
 //    while(OV7670_HREF);
 

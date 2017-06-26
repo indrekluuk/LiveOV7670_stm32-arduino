@@ -46,6 +46,14 @@
 // STM32
 #ifdef _VARIANT_ARDUINO_STM32_
 
+#ifndef OV7670_INIT_INPUTS
+#define OV7670_INIT_INPUTS \
+              const int inputPins[]={PB3,PB4,PB5,PB8,PB9,PB10,PB11,PB12,PB13,PB14,PB15}; \
+              for(int i=0;i<8;i++) { \
+                pinMode(inputPins[i],INPUT); \
+              }
+#endif
+
 // vsync - PB5
 #ifndef OV7670_VSYNC
 #define OV7670_VSYNC ((*GPIOB_BASE).IDR & 0x0020)
@@ -135,7 +143,7 @@ public:
 
 
 private:
-  void initClock();
+  void initIO();
   bool setUpCamera();
 };
 
