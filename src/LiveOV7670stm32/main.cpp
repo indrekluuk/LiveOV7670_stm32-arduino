@@ -8,6 +8,7 @@
 #include "src/camera/buffered/BufferedCameraOV7670.h"
 #include "src/camera/buffered/stm32_72mhz/BufferedCameraOV7670_QQVGA_30hz.h"
 #include "src/camera/buffered/stm32_72mhz/BufferedCameraOV7670_QQVGA.h"
+#include "src/camera/buffered/stm32_72mhz/BufferedCameraOV7670_QVGA.h"
 #include "src/screen/Adafruit_ST7735_stm32arduino.h"
 
 
@@ -32,6 +33,7 @@
 
 
 BufferedCameraOV7670_QQVGA camera(CameraOV7670::PIXEL_RGB565, BufferedCameraOV7670_QQVGA::FPS_12_Hz);
+//BufferedCameraOV7670_QVGA camera(CameraOV7670::PIXEL_RGB565, BufferedCameraOV7670_QVGA::FPS_7p5_Hz);
 
 //BufferedCameraOV7670_QQVGA_30hz camera(CameraOV7670::PIXEL_RGB565);
 
@@ -78,13 +80,11 @@ inline void sendPixelByte(uint8_t byte) __attribute__((always_inline));
 inline void pixelSendingDelay() __attribute__((always_inline));
 
 
-static const uint16_t lineLength = 160;
-static const uint16_t lineCount = 120;
 
 // Normally it is a portrait screen. Use it as landscape
-uint8_t screen_w = ST7735_TFTHEIGHT_18;
-uint8_t screen_h = ST7735_TFTWIDTH;
-uint8_t screenLineIndex;
+uint16_t screen_w = ST7735_TFTHEIGHT_18;
+uint16_t screen_h = ST7735_TFTWIDTH;
+uint16_t screenLineIndex;
 
 
 
@@ -96,7 +96,7 @@ void processFrame() {
 
   camera.waitForVsync();
 
-  for (uint8_t i = 0; i < camera.getLineCount(); i++) {
+  for (uint16_t i = 0; i < camera.getLineCount(); i++) {
     camera.readLine();
     sendLineToDisplay();
   }
