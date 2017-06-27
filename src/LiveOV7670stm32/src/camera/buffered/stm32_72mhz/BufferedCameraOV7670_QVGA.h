@@ -106,62 +106,6 @@ void BufferedCameraOV7670_QVGA::readLine() {
   }
 
 
-
-  /*
-  // reading loop is too tight for 12Hz and above to wait for raising clock edge
-  if (framesPerSecond == FPS_XX_Hz) {
-//    while(OV7670_HREF);
-
-    pixelBuffer.writeBufferPadding = 0;
-    uint16_t bufferIndex = 0;
-
-
-
-    while(!OV7670_HREF);
-
-    //C14_ON;
-    //C14_OFF;
-
-    while (bufferIndex < getPixelBufferLength()) {
-      pixelBuffer.writeBuffer[bufferIndex++] = readPixelByte();
-      asm volatile("nop");
-      asm volatile("nop");
-      asm volatile("nop");
-      asm volatile("nop");
-      asm volatile("nop");
-
-      asm volatile("nop");
-      asm volatile("nop");
-      asm volatile("nop");
-      asm volatile("nop");
-
-      pixelBuffer.writeBuffer[bufferIndex++] = readPixelByte();
-
-      asm volatile("nop");
-      asm volatile("nop");
-      asm volatile("nop");
-//      asm volatile("nop");
-
-      asm volatile("nop");
-      asm volatile("nop");
-      asm volatile("nop");
-    }
-
-    //C14_ON;
-    //C14_OFF;
-  } else if (framesPerSecond == FPS_6p25_Hz) {
-
-
-
-
-  } else if (framesPerSecond == FPS_5p6_Hz) {
-
-
-
-  } else {
-
-  }
-  */
 }
 
 
