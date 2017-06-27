@@ -107,9 +107,7 @@ void processFrame() {
 void sendLineToDisplay() {
   if (screenLineIndex > 0) {
     screenLineStart();
-    for (uint16_t i=0; i<camera.getPixelBufferLength(); i++) {
-      sendPixelByte(camera.getPixelByte(i));
-    }
+    SPI.write(camera.getPixelBuffer(), camera.getPixelBufferLength());
     screenLineEnd();
   }
 }
