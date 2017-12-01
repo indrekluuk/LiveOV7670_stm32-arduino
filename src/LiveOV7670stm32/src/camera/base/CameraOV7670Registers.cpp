@@ -79,6 +79,10 @@ void CameraOV7670Registers::setDisablePixelClockDuringBlankLines() {
 }
 
 
+void CameraOV7670Registers::setHREFReverse() {
+  setRegisterBitsOR(REG_COM10, COM10_HREF_REV);
+}
+
 
 void CameraOV7670Registers::setInternalClockPreScaler(int preScaler) {
   setRegister(REG_CLKRC, 0x80 | preScaler); // f = input / (val + 1)

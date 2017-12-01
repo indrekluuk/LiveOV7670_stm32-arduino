@@ -26,7 +26,7 @@ const PROGMEM RegisterData CameraOV7670Registers::regsDefault [] = { //from the 
                          {0x70, 0x3a},		{0x71, 0x35},
                          {0x72, 0x11},		{0x73, 0xf0},
                          {0xa2,/* 0x02 changed to 1*/1},
-                         {REG_COM10, COM10_HREF_REV},
+                         {REG_COM10, 0},
     /* Gamma curve values */
                          {0x7a, 0x20},		{0x7b, 0x10},
                          {0x7c, 0x1e},		{0x7d, 0x35},
