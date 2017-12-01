@@ -75,7 +75,7 @@ void CameraOV7670Registers::setRegisterBitsAND(uint8_t addr, uint8_t bits) {
 
 
 void CameraOV7670Registers::setDisablePixelClockDuringBlankLines() {
-  setRegister(REG_COM10, COM10_PCLK_HB);
+  setRegisterBitsOR(REG_COM10, COM10_PCLK_HB);
 }
 
 
