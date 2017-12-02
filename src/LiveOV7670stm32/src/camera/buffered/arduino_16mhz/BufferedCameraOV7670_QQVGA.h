@@ -66,13 +66,13 @@ void BufferedCameraOV7670_QQVGA::readLine() {
       asm volatile("nop");
       asm volatile("nop");
       asm volatile("nop");
-      pixelBuffer.writeBuffer[bufferIndex++] = readPixelByte();
+      readPixelByte(pixelBuffer.writeBuffer[bufferIndex++]);
       asm volatile("nop");
       asm volatile("nop");
       asm volatile("nop");
       asm volatile("nop");
       asm volatile("nop");
-      pixelBuffer.writeBuffer[bufferIndex++] = readPixelByte();
+      readPixelByte(pixelBuffer.writeBuffer[bufferIndex++]);
     }
 
   } else {

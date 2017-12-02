@@ -71,7 +71,7 @@ void BufferedCameraOV7670_QQVGA::readLine() {
     //C14_OFF;
 
     while (bufferIndex < getPixelBufferLength()) {
-      pixelBuffer.writeBuffer[bufferIndex++] = readPixelByte();
+      readPixelByte(pixelBuffer.writeBuffer[bufferIndex++]);
       asm volatile("nop");
       asm volatile("nop");
       asm volatile("nop");
@@ -83,7 +83,7 @@ void BufferedCameraOV7670_QQVGA::readLine() {
       asm volatile("nop");
       asm volatile("nop");
 
-      pixelBuffer.writeBuffer[bufferIndex++] = readPixelByte();
+      readPixelByte(pixelBuffer.writeBuffer[bufferIndex++]);
 
       asm volatile("nop");
       asm volatile("nop");
@@ -107,11 +107,11 @@ void BufferedCameraOV7670_QQVGA::readLine() {
     while (bufferIndex < getPixelBufferLength()) {
       waitForPixelClockLow();
       asm volatile("nop");
-      pixelBuffer.writeBuffer[bufferIndex++] = readPixelByte();
+      readPixelByte(pixelBuffer.writeBuffer[bufferIndex++]);
 
       waitForPixelClockLow();
       asm volatile("nop");
-      pixelBuffer.writeBuffer[bufferIndex++] = readPixelByte();
+      readPixelByte(pixelBuffer.writeBuffer[bufferIndex++]);
     }
 
 
@@ -128,7 +128,7 @@ void BufferedCameraOV7670_QQVGA::readLine() {
       asm volatile("nop");
       asm volatile("nop");
       asm volatile("nop");
-      pixelBuffer.writeBuffer[bufferIndex++] = readPixelByte();
+      readPixelByte(pixelBuffer.writeBuffer[bufferIndex++]);
 
       waitForPixelClockLow();
       asm volatile("nop");
@@ -136,7 +136,7 @@ void BufferedCameraOV7670_QQVGA::readLine() {
       asm volatile("nop");
       asm volatile("nop");
       asm volatile("nop");
-      pixelBuffer.writeBuffer[bufferIndex++] = readPixelByte();
+      readPixelByte(pixelBuffer.writeBuffer[bufferIndex++]);
     }
 
   } else {
