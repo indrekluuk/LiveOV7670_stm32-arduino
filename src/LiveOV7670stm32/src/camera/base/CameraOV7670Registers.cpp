@@ -78,6 +78,9 @@ void CameraOV7670Registers::setDisablePixelClockDuringBlankLines() {
   setRegisterBitsOR(REG_COM10, COM10_PCLK_HB);
 }
 
+void CameraOV7670Registers::setDisableHREFDuringBlankLines() {
+  setRegisterBitsOR(REG_COM6, COM6_HREF_HB);
+}
 
 void CameraOV7670Registers::setHREFReverse() {
   setRegisterBitsOR(REG_COM10, COM10_HREF_REV);
@@ -117,6 +120,14 @@ void CameraOV7670Registers::reversePixelBits() {
   setRegisterBitsOR(REG_COM3, COM3_SWAP);
 }
 
+
+void CameraOV7670Registers::setShowColorBar(bool transparent) {
+  if (transparent) {
+    setRegisterBitsOR(REG_COM7, COM7_COLOR_BAR);
+  } else {
+    setRegisterBitsOR(REG_COM17, COM17_CBAR);
+  }
+}
 
 
 

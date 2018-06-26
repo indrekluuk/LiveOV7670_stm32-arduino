@@ -7,8 +7,8 @@
 
 
 struct RegisterData {
-  uint8_t addr;
-  uint8_t val;
+    uint8_t addr;
+    uint8_t val;
 };
 
 
@@ -37,6 +37,7 @@ struct RegisterData {
 #define REG_COM4	0x0d	/* Control 4 */
 #define REG_COM5	0x0e	/* All "reserved" */
 #define REG_COM6	0x0f	/* Control 6 */
+#define COM6_HREF_HB 0x80	/* Suppress PCLK on horiz blank */
 #define REG_AECH	0x10	/* More bits of AEC value */
 #define REG_CLKRC	0x11	/* Clocl control */
 #define CLK_EXT		0x40	/* Use external clock directly */
@@ -51,6 +52,7 @@ struct RegisterData {
 #define	COM7_RGB	0x04	/* bits 0 and 2 - RGB format */
 #define	COM7_YUV	0x00	/* YUV */
 #define	COM7_BAYER	0x01	/* Bayer format */
+#define	COM7_COLOR_BAR	0x02	/* transpartent color bar overlay */
 #define	COM7_PBAYER	0x05	/* "Processed bayer" */
 #define REG_COM8	0x13	/* Control 8 */
 #define COM8_FASTAEC	0x80	/* Enable fast AGC/AEC */
