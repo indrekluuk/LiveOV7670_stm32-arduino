@@ -1,4 +1,7 @@
+Datasheet for OV7670:  
+https://www.voti.nl/docs/OV7670.pdf
 
+----
 
 STM32 support for Arduino IDE.  
 Add this to File->Preferences->Additional Boards Manager URLs:  
