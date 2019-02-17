@@ -10,7 +10,7 @@
 #include "src/camera/buffered/stm32_72mhz/BufferedCameraOV7670_QQVGA.h"
 #include "src/camera/buffered/stm32_72mhz/BufferedCameraOV7670_QVGA.h"
 #include "src/screen/Adafruit_ST7735_stm32arduino.h"
-
+#include "GrayScaleTable.h"
 
 
 
@@ -32,8 +32,16 @@
 // PB8..PB15 pixel byte
 
 
+
+#define GRAYSCALE_PIXELS 0
+
+#if GRAYSCALE_PIXELS == 1
+BufferedCameraOV7670_QQVGA camera(CameraOV7670::PIXEL_YUV422, BufferedCameraOV7670_QQVGA::FPS_15_Hz);
+#else
 BufferedCameraOV7670_QQVGA camera(CameraOV7670::PIXEL_RGB565, BufferedCameraOV7670_QQVGA::FPS_15_Hz);
 //BufferedCameraOV7670_QVGA camera(CameraOV7670::PIXEL_RGB565, BufferedCameraOV7670_QVGA::FPS_7p5_Hz);
+#endif
+
 
 //BufferedCameraOV7670_QQVGA_30hz camera(CameraOV7670::PIXEL_RGB565);
 
@@ -107,9 +115,19 @@ void processFrame() {
 void sendLineToDisplay() {
   if (screenLineIndex > 0) {
     screenLineStart();
+
+
+#if GRAYSCALE_PIXELS == 1
+    for (uint16_t i=0; i<camera.getPixelBufferLength(); i+=2) {
+      sendPixelByte(graysScaleTableHigh[camera.getPixelByte(i)]);
+      sendPixelByte(graysScaleTableLow[camera.getPixelByte(i)]);
+    }
+#else
     for (uint16_t i=0; i<camera.getPixelBufferLength(); i++) {
       sendPixelByte(camera.getPixelByte(i));
     }
+#endif
+
     screenLineEnd();
   }
 }
